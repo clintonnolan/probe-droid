@@ -1,4 +1,4 @@
-package org.cnolan;
+package org.cnolan.model;
 
 import org.junit.jupiter.api.Test;
 
