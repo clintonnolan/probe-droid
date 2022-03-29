@@ -47,6 +47,10 @@ public class DroidParser {
             validationIssues.add(new ValidationIssue("Invalid direction " + stateEntries[2]));
         }
 
+        if (validationIssues.size() > 0) {
+            throw new ValidationException(validationIssues);
+        }
+
         if(x < 0){
             validationIssues.add(new ValidationIssue("Negative x"));
         }
@@ -78,7 +82,6 @@ public class DroidParser {
                     break;
                 default:
                     validationIssues.add(new ValidationIssue("Invalid character " + c + " in list of actions"));
-                    throw new RuntimeException();
             }
         }
 

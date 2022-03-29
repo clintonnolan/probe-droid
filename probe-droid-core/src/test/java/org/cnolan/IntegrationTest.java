@@ -193,6 +193,19 @@ public class IntegrationTest {
     }
 
     @Test
+    void bothMapLinesInvalidThrowsValidationExceptionWithMultipleExceptions() {
+        String inputString = "X X";
+        try{
+            sim.run(inputString);
+            Fail.failBecauseExceptionWasNotThrown(ValidationException.class);
+        } catch (ValidationException e){
+            assertThat(e.getIssues()).hasSize(2);
+            assertThat(e.getIssues().get(0).getMessage()).isEqualTo("Invalid width: X");
+            assertThat(e.getIssues().get(1).getMessage()).isEqualTo("Invalid height: X");
+        }
+    }
+
+    @Test
     void negativeWidthThrowsValidationException() {
         String inputString = "-1 5\n";
         validationTestWithOneExpectedMessage(inputString, "Negative width");
@@ -202,6 +215,101 @@ public class IntegrationTest {
     void negativeHeightThrowsValidationException() {
         String inputString = "5 -1\n";
         validationTestWithOneExpectedMessage(inputString, "Negative height");
+    }
+
+    @Test
+    void notEnoughDroidLinesThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2 N";
+        validationTestWithOneExpectedMessage(inputString, "Missing line at end");
+    }
+
+    @Test
+    void notEnoughDroidStateInputsThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Too many or too few entries on droid state line");
+    }
+
+    @Test
+    void tooManyDroidStateInputsThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2 N N\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Too many or too few entries on droid state line");
+    }
+
+    @Test
+    void invalidDroidXThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"X 2 N\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Invalid number for x X");
+    }
+
+    @Test
+    void invalidDroidYThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 X N\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Invalid number for y X");
+    }
+
+    @Test
+    void negativeXDroidXThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"-1 2 N\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Negative x");
+    }
+
+    @Test
+    void negativeYThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 -2 N\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Negative y");
+    }
+
+    @Test
+    void invalidDroidDirectionThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2 X\n"
+        +"MMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Invalid direction X");
+    }
+
+    @Test
+    void invalidDroidInstructionThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2 N\n"
+        +"MXLRM";
+        validationTestWithOneExpectedMessage(inputString, "Invalid character X in list of actions");
+    }
+
+    @Test
+    void spaceInDroidInstructionsThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 2 N\n"
+        +"MM LRM";
+        validationTestWithOneExpectedMessage(inputString, "Invalid character   in list of actions");
+    }
+
+    @Test
+    void droidOffMapInXDirectionThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"20 2 N\n"
+        +"MMMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Initial agent coordinates for agent 0 are not on the map");
+    }
+
+    @Test
+    void droidOffMapInYDirectionThrowsValidationException() {
+        String inputString = "5 5\n"
+        +"1 20 N\n"
+        +"MMMLRM";
+        validationTestWithOneExpectedMessage(inputString, "Initial agent coordinates for agent 0 are not on the map");
     }
 
     private void validationTestWithOneExpectedMessage(String inputString, String expectedMessage){
