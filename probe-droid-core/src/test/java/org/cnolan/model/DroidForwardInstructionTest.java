@@ -85,7 +85,7 @@ public class DroidForwardInstructionTest {
         assertThat(droid.getY()).isEqualTo(6);
         assertThat(droid.getDirection()).isEqualTo(0);
         assertThat(state.getEvents()).hasSize(1);
-        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 3,6 facing 0.");
+        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 3,6 facing N.");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class DroidForwardInstructionTest {
         assertThat(droid.getY()).isEqualTo(3);
         assertThat(droid.getDirection()).isEqualTo(1);
         assertThat(state.getEvents()).hasSize(1);
-        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 4,3 facing 1.");
+        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 4,3 facing E.");
     }
 
     @Test
@@ -123,7 +123,7 @@ public class DroidForwardInstructionTest {
         assertThat(droid.getY()).isEqualTo(0);
         assertThat(droid.getDirection()).isEqualTo(2);
         assertThat(state.getEvents()).hasSize(1);
-        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 3,0 facing 2.");
+        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 3,0 facing S.");
     }
 
     @Test
@@ -142,7 +142,7 @@ public class DroidForwardInstructionTest {
         assertThat(droid.getY()).isEqualTo(3);
         assertThat(droid.getDirection()).isEqualTo(3);
         assertThat(state.getEvents()).hasSize(1);
-        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 0,3 facing 3.");
+        assertThat(state.getEvents().get(0).getDisplayString()).isEqualTo("Agent Droid fell off map at 0,3 facing W.");
     }
 
     private Droid createExampleDroid(){

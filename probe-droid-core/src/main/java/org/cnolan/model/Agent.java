@@ -3,6 +3,8 @@ package org.cnolan.model;
 import java.util.List;
 import java.util.Objects;
 
+import org.cnolan.util.CompassUtil;
+
 public abstract class Agent {
     private String id;
     private int x;
@@ -99,7 +101,7 @@ public abstract class Agent {
             ", x='" + getX() + "'" +
             ", y='" + getY() + "'" +
             ", onMap='" + isOnMap() + "'" +
-            ", direction='" + getDirection() + "'" +
+            ", direction='" + CompassUtil.convertCompassStateToCompassString(getDirection()) + "'" +
             ", actions='" + getActions() + "'" +
             "}";
     }    

@@ -2,6 +2,8 @@ package org.cnolan.model;
 
 import java.util.Objects;
 
+import org.cnolan.util.CompassUtil;
+
 public class FallEvent implements Event {
     private int x;
     private int y;
@@ -79,8 +81,7 @@ public class FallEvent implements Event {
     @Override
     public String getDisplayString() {
         //TODO: improve this?
-        //TODO: Direction should be the direction symbol
-        return "Agent " + agentId + " fell off map at " + x + "," + y + " facing " + direction
+        return "Agent " + agentId + " fell off map at " + x + "," + y + " facing " + CompassUtil.convertCompassStateToCompassString(direction)
                 + ".";
     }
 
