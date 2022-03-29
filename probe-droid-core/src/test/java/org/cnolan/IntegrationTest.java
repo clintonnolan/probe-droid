@@ -43,4 +43,43 @@ public class IntegrationTest {
         
         assertThat(outputReport).isEqualTo(expectedOutput);
     }
+
+    @Test
+    void noDroidsTest() {
+        String inputString = "5 5";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void droidFallsOffEdgeTest() {
+        String inputString = "5 5\n"
+                + "3 3 N\n"
+                + "MMMMMM";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "3 5 N\n"
+        +"Agent Droid 0 fell off map at 3,5 facing N.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void droidStopsMovingAfterFallingOffEdgeTest() {
+        String inputString = "5 5\n"
+                + "3 3 N\n"
+                + "MMMMRMM";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "3 5 N\n"
+        +"Agent Droid 0 fell off map at 3,5 facing N.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
 }

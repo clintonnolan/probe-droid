@@ -10,9 +10,12 @@ public class DroidForwardInstruction extends DroidInstruction {
 
     @Override
     public void performAction(Droid droid, SimulationState state) {
-        //TODO: improve this?
+        if(!droid.isOnMap()){
+            return;
+        }
         int x = droid.getX();
         int y = droid.getY();
+        //TODO: improve this?
         switch(droid.getDirection()){
             case 0:
                 y += 1;

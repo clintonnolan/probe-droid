@@ -10,6 +10,9 @@ public class DroidLeftInstruction extends DroidInstruction {
 
     @Override
     public void performAction(Droid droid, SimulationState state) {
+        if(!droid.isOnMap()){
+            return;
+        }
         int currentDirection = droid.getDirection();
         currentDirection -= 1;
         if(currentDirection < 0){
