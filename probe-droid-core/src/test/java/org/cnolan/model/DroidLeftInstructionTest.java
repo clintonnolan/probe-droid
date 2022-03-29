@@ -1,32 +1,40 @@
 package org.cnolan.model;
 
+import static org.assertj.core.api.Assertions.*;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.cnolan.model.helper.DroidInstructionTestHelper;
 import org.cnolan.simulation.SimulationState;
 import org.junit.jupiter.api.Test;
 
 public class DroidLeftInstructionTest {
 
-    //TODO: rewrite these to not use mocks inappropriately
+    private RectangleMap exampleMap = new RectangleMap(4,6);
+
     @Test
-    void whenTurnLeftAtThreeThenEndAtTwo(){
-        Droid mockDroid = mock(Droid.class);
-        when(mockDroid.getDirection()).thenReturn(3);
-        SimulationState mockState = mock(SimulationState.class);
-        DroidLeftInstruction instruction = new DroidLeftInstruction(mockDroid);
-        instruction.performAction(mockState);
-        verify(mockDroid).setDirection(2);
+    void whenTurnLeftAtWestThenEndAtSouth(){
+        Droid droid = DroidInstructionTestHelper.createExampleDroid();
+        droid.setDirection(3);
+        DroidLeftInstruction instruction = new DroidLeftInstruction(droid);
+        SimulationState state = DroidInstructionTestHelper.createExampleState(exampleMap, droid);
+
+        instruction.performAction(state);
+
+        assertThat(droid.getDirection()).isEqualTo(2);
     }
 
     @Test
-    void whenTurnLeftAtZeroThenEndAtThree(){
-        Droid mockDroid = mock(Droid.class);
-        when(mockDroid.getDirection()).thenReturn(0);
-        SimulationState mockState = mock(SimulationState.class);
-        DroidLeftInstruction instruction = new DroidLeftInstruction(mockDroid);
-        instruction.performAction(mockState);
-        verify(mockDroid).setDirection(3);
+    void whenTurnLeftAtNorthThenEndAtWest(){
+        Droid droid = DroidInstructionTestHelper.createExampleDroid();
+        droid.setDirection(0);
+        DroidLeftInstruction instruction = new DroidLeftInstruction(droid);
+        SimulationState state = DroidInstructionTestHelper.createExampleState(exampleMap, droid);
+
+        instruction.performAction(state);
+
+        assertThat(droid.getDirection()).isEqualTo(3);
     }
 }

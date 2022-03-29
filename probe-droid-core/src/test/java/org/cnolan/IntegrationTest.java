@@ -10,6 +10,7 @@ import org.cnolan.parser.RectangleMapParser;
 import org.cnolan.simulation.DroidSimulation;
 import org.cnolan.simulation.Simulation;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,7 +57,7 @@ public class IntegrationTest {
     }
 
     @Test
-    void droidFallsOffEdgeTest() {
+    void droidFallsOffNorthEdgeTest() {
         String inputString = "5 5\n"
                 + "3 3 N\n"
                 + "MMMMMM";
@@ -70,15 +71,95 @@ public class IntegrationTest {
     }
 
     @Test
+    void droidFallsOffEastEdgeTest() {
+        String inputString = "5 5\n"
+                + "3 3 E\n"
+                + "MMMMMM";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "5 3 E\n"
+        +"Agent Droid 0 fell off map at 5,3 facing E.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void droidFallsOffSouthEdgeTest() {
+        String inputString = "5 5\n"
+                + "3 3 S\n"
+                + "MMMMMM";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "3 0 S\n"
+        +"Agent Droid 0 fell off map at 3,0 facing S.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void droidFallsOffWestEdgeTest() {
+        String inputString = "5 5\n"
+                + "3 3 W\n"
+                + "MMMMMM";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "0 3 W\n"
+        +"Agent Droid 0 fell off map at 0,3 facing W.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
     void droidStopsMovingAfterFallingOffEdgeTest() {
         String inputString = "5 5\n"
                 + "3 3 N\n"
-                + "MMMMRMM";
+                + "MMMMRMMLLM";
 
         String outputReport = sim.run(inputString);
 
         String expectedOutput = "3 5 N\n"
         +"Agent Droid 0 fell off map at 3,5 facing N.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void twoDroidsFallOffEdgeButOneDoesNotTest() {
+        String inputString = "5 5\n"
+                + "3 3 N\n"
+                + "MMMMMM\n"
+                + "1 1 N\n"
+                + "MMMRMMM\n"
+                + "3 3 S\n"
+                + "MMMMMM\n";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "3 5 N\n"
+        +"4 4 E\n"
+        +"3 0 S\n"
+        +"Agent Droid 0 fell off map at 3,5 facing N.\n"
+        +"Agent Droid 2 fell off map at 3,0 facing S.\n";
+        
+        assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    @Disabled("Not currently working, but this is a bonus objective")
+    void emptyLinesIgnored() {
+        String inputString = "\n5 5\n"
+                + "\n\n\n1 2 N\n\n"
+                + "LMLMLMLMM\n\n"
+                + "\n3 3 E\n\n"
+                + "\nMMRMMRMRRM\n\n";
+
+        String outputReport = sim.run(inputString);
+
+        String expectedOutput = "1 3 N\n"
+        +"5 1 E\n";
         
         assertThat(outputReport).isEqualTo(expectedOutput);
     }
