@@ -6,7 +6,6 @@ import java.util.List;
 import org.cnolan.model.Action;
 import org.cnolan.model.Droid;
 import org.cnolan.model.DroidForwardInstruction;
-import org.cnolan.model.DroidInstruction;
 import org.cnolan.model.DroidLeftInstruction;
 import org.cnolan.model.DroidRightInstruction;
 import org.cnolan.util.CompassUtil;
@@ -38,7 +37,6 @@ public class DroidParser {
         List<Action> actions = new ArrayList<>();
         String actionLine = droidLines.get(1).trim();
         for(char c : actionLine.toCharArray()){
-            Action action = null;
             //TODO: improve this
             switch(c){
                 case 'L':

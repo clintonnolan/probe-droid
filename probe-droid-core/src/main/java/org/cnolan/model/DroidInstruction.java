@@ -1,8 +1,12 @@
 package org.cnolan.model;
 
+
 import org.cnolan.simulation.SimulationState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class DroidInstruction implements Action {
+    private static Logger LOGGER = LoggerFactory.getLogger(DroidInstruction.class);
 
     private Droid droid;
 
@@ -12,11 +16,10 @@ public abstract class DroidInstruction implements Action {
 
     @Override
     public void performAction(SimulationState state) {
-        //TODO: turn this into debug logging
-        System.out.println("Instruction: "+getDisplayString());
-        System.out.println("Before: "+droid);
+        LOGGER.debug("Instruction: {}",getDisplayString());
+        LOGGER.debug("Before: {}",droid);
         performAction(droid, state);
-        System.out.println("After: "+droid);
+        LOGGER.debug("After: ",droid);
     }
 
     public abstract void performAction(Droid droid, SimulationState state);

@@ -1,11 +1,9 @@
 package org.cnolan;
 
-import org.cnolan.model.RectangleMap;
 import org.cnolan.output.DroidPositionWriter;
 import org.cnolan.output.OutputWriter;
 import org.cnolan.parser.DroidParser;
 import org.cnolan.parser.DroidStringParser;
-import org.cnolan.parser.MapParser;
 import org.cnolan.parser.Parser;
 import org.cnolan.parser.ParserReader;
 import org.cnolan.parser.RectangleMapParser;
