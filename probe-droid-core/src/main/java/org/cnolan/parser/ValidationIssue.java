@@ -5,7 +5,6 @@ import java.util.Objects;
 public class ValidationIssue {
     private String message;
 
-
     public ValidationIssue() {
     }
 

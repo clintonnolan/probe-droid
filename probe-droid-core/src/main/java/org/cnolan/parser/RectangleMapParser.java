@@ -6,7 +6,7 @@ import java.util.List;
 import org.cnolan.exception.ValidationException;
 import org.cnolan.model.RectangleMap;
 
-public class RectangleMapParser implements MapParser {
+public class RectangleMapParser {
     public RectangleMap parseMap(String mapLine){
         List<ValidationIssue> validationIssues = new ArrayList<>();
         String[] splitLine = mapLine.trim().split("\\s+");
