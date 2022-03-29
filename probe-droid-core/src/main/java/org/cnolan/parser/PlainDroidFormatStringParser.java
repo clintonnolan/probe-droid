@@ -5,16 +5,17 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cnolan.exception.ValidationException;
 import org.cnolan.model.Agent;
 import org.cnolan.model.Map;
 import org.cnolan.simulation.SimulationState;
 
-public class DroidStringParser implements Parser<String>{
+public class PlainDroidFormatStringParser implements Parser<String>{
     private DroidParser droidParser;
     private RectangleMapParser mapParser;
     private ParserReader parserReader;
 
-    public DroidStringParser(DroidParser droidParser, RectangleMapParser mapParser, ParserReader parserReader) {
+    public PlainDroidFormatStringParser(DroidParser droidParser, RectangleMapParser mapParser, ParserReader parserReader) {
         this.droidParser = droidParser;
         this.mapParser = mapParser;
         this.parserReader = parserReader;
@@ -22,6 +23,8 @@ public class DroidStringParser implements Parser<String>{
     
     @Override
     public SimulationState parseInput(String input) {
+        List<ValidationIssue> validationIssues = new ArrayList<>();
+
         SimulationState state = new SimulationState();
         state.setEvents(new ArrayList<>());
         
@@ -36,13 +39,18 @@ public class DroidStringParser implements Parser<String>{
             agent.setId("Droid "+Integer.toString(agentCounter));
             //TODO: improve?
             if(!map.isCoordinateOnMap(agent.getX(), agent.getY())){
-                throw new RuntimeException("Initial agent coordinates for agent "+agentCounter+" are not on the map");
+                validationIssues.add(new ValidationIssue("Initial agent coordinates for agent "+agentCounter+" are not on the map"));
             }
             agent.setOnMap(true);
             agentCounter++;
             agents.add(agent);
         }
         state.setAgents(agents);
+
+        if (validationIssues.size() > 0) {
+            throw new ValidationException(validationIssues);
+        }
+
         return state;
     }
     

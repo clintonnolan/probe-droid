@@ -5,14 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cnolan.exception.ValidationException;
+
 public class ParserReader {
     public DroidLines readDroidLines(BufferedReader reader) {
+        List<ValidationIssue> validationIssues = new ArrayList<>();
         String mapLine = null;
         try {
             mapLine = reader.readLine();
         } catch (IOException e) {
-            // TODO: improve this?
-            throw new RuntimeException("Couldn't read line");
+            validationIssues.add(new ValidationIssue("Couldn't read line"));
+            throw new ValidationException(validationIssues);
         }
 
         List<List<String>> droidLines = new ArrayList<>();
@@ -34,13 +37,13 @@ public class ParserReader {
             }
 
             if (currentLines.size() > 0) {
-                // TODO: improve this?
-                throw new RuntimeException("Missing line at end");
+                validationIssues.add(new ValidationIssue("Missing line at end"));
+                throw new ValidationException(validationIssues);
             }
 
         } catch (IOException e) {
-            // TODO: improve this?
-            throw new RuntimeException("Couldn't read line");
+            validationIssues.add(new ValidationIssue("Couldn't read line"));
+            throw new ValidationException(validationIssues);
         }
 
         DroidLines droidLinesOutput = new DroidLines(mapLine, droidLines);

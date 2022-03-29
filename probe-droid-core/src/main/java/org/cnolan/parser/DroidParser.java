@@ -3,6 +3,7 @@ package org.cnolan.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.cnolan.exception.ValidationException;
 import org.cnolan.model.Action;
 import org.cnolan.model.Droid;
 import org.cnolan.model.DroidForwardInstruction;
@@ -11,34 +12,61 @@ import org.cnolan.model.DroidRightInstruction;
 import org.cnolan.util.CompassUtil;
 
 public class DroidParser {
-    public Droid parseDroid(List<String> droidLines){
+    public Droid parseDroid(List<String> droidLines) {
+        List<ValidationIssue> validationIssues = new ArrayList<>();
         Droid droid = new Droid();
 
-        if(droidLines.size() != 2){
-            //TODO: improve?
-            throw new RuntimeException("Too many or too few droid lines");
+        if (droidLines.size() != 2) {
+            validationIssues.add(new ValidationIssue("Too many or too few droid lines"));
+            throw new ValidationException(validationIssues);
         }
         String stateLine = droidLines.get(0);
         String[] stateEntries = stateLine.trim().split("\\s+");
-        if(stateEntries.length != 3){
-            //TODO: improve?
-            throw new RuntimeException("Too many or too few entries on droid state line");
+        if (stateEntries.length != 3) {
+            validationIssues.add(new ValidationIssue("Too many or too few entries on droid state line"));
+            throw new ValidationException(validationIssues);
         }
-        //TODO: convert or use number format exception
-        int x = Integer.parseInt(stateEntries[0]);
-        int y = Integer.parseInt(stateEntries[1]);
-        //TODO: catch runtime exception and convert it to something more meaningful
-        int direction = CompassUtil.convertCompassStringToCompassState(stateEntries[2]);
-        
+
+        int x = -1;
+        int y = -1;
+        int direction = -1;
+
+        try {
+            x = Integer.parseInt(stateEntries[0]);
+        } catch (NumberFormatException e) {
+            validationIssues.add(new ValidationIssue("Invalid number for x " + stateEntries[0]));
+        }
+        try {
+            y = Integer.parseInt(stateEntries[1]);
+        } catch (NumberFormatException e) {
+            validationIssues.add(new ValidationIssue("Invalid number for y " + stateEntries[1]));
+        }
+        try {
+            direction = CompassUtil.convertCompassStringToCompassState(stateEntries[2]);
+        } catch (RuntimeException e) {
+            validationIssues.add(new ValidationIssue("Invalid direction " + stateEntries[2]));
+        }
+
+        if(x < 0){
+            validationIssues.add(new ValidationIssue("Negative x"));
+        }
+        if(y < 0){
+            validationIssues.add(new ValidationIssue("Negative y"));
+        }
+
+        if (validationIssues.size() > 0) {
+            throw new ValidationException(validationIssues);
+        }
+
         droid.setX(x);
         droid.setY(y);
         droid.setDirection(direction);
 
         List<Action> actions = new ArrayList<>();
         String actionLine = droidLines.get(1).trim();
-        for(char c : actionLine.toCharArray()){
-            //TODO: improve this
-            switch(c){
+        for (char c : actionLine.toCharArray()) {
+            // TODO: improve this
+            switch (c) {
                 case 'L':
                     actions.add(new DroidLeftInstruction(droid));
                     break;
@@ -49,9 +77,13 @@ public class DroidParser {
                     actions.add(new DroidForwardInstruction(droid));
                     break;
                 default:
-                    //TODO: improve this
-                    throw new RuntimeException("Invalid character in list of actions");
+                    validationIssues.add(new ValidationIssue("Invalid character " + c + " in list of actions"));
+                    throw new RuntimeException();
             }
+        }
+
+        if (validationIssues.size() > 0) {
+            throw new ValidationException(validationIssues);
         }
 
         droid.setActions(actions);

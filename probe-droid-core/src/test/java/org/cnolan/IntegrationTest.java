@@ -1,9 +1,10 @@
 package org.cnolan;
 
+import org.cnolan.exception.ValidationException;
 import org.cnolan.output.DroidPositionWriter;
 import org.cnolan.output.OutputWriter;
 import org.cnolan.parser.DroidParser;
-import org.cnolan.parser.DroidStringParser;
+import org.cnolan.parser.PlainDroidFormatStringParser;
 import org.cnolan.parser.Parser;
 import org.cnolan.parser.ParserReader;
 import org.cnolan.parser.RectangleMapParser;
@@ -15,6 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.Assert;
+import org.assertj.core.api.Fail;
+
 public class IntegrationTest {
     private static SimulationPipeline<String> sim = null;
 
@@ -23,7 +27,7 @@ public class IntegrationTest {
         ParserReader parserReader = new ParserReader();
         RectangleMapParser mapParser = new RectangleMapParser();
         DroidParser droidParser = new DroidParser();
-        Parser<String> parser = new DroidStringParser(droidParser, mapParser, parserReader);
+        Parser<String> parser = new PlainDroidFormatStringParser(droidParser, mapParser, parserReader);
         Simulation simulation = new DroidSimulation();
         OutputWriter outputWriter = new DroidPositionWriter();
         sim = new SimulationPipeline<>(parser, simulation, outputWriter);
@@ -162,5 +166,51 @@ public class IntegrationTest {
         +"5 1 E\n";
         
         assertThat(outputReport).isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void notEnoughMapDigitsThrowsValidationException() {
+        String inputString = "5\n";
+        validationTestWithOneExpectedMessage(inputString, "Too many or too few entries on map line");
+    }
+
+    @Test
+    void tooManyMapDigitsThrowsValidationException() {
+        String inputString = "5 5 5\n";
+        validationTestWithOneExpectedMessage(inputString, "Too many or too few entries on map line");
+    }
+
+    @Test
+    void invalidWidthThrowsValidationException() {
+        String inputString = "X 5\n";
+        validationTestWithOneExpectedMessage(inputString, "Invalid width: X");
+    }
+
+    @Test
+    void invalidHeightThrowsValidationException() {
+        String inputString = "5 X\n";
+        validationTestWithOneExpectedMessage(inputString, "Invalid height: X");
+    }
+
+    @Test
+    void negativeWidthThrowsValidationException() {
+        String inputString = "-1 5\n";
+        validationTestWithOneExpectedMessage(inputString, "Negative width");
+    }
+
+    @Test
+    void negativeHeightThrowsValidationException() {
+        String inputString = "5 -1\n";
+        validationTestWithOneExpectedMessage(inputString, "Negative height");
+    }
+
+    private void validationTestWithOneExpectedMessage(String inputString, String expectedMessage){
+        try{
+            sim.run(inputString);
+            Fail.failBecauseExceptionWasNotThrown(ValidationException.class);
+        } catch (ValidationException e){
+            assertThat(e.getIssues()).hasSize(1);
+            assertThat(e.getIssues().get(0).getMessage()).isEqualTo(expectedMessage);
+        }
     }
 }
