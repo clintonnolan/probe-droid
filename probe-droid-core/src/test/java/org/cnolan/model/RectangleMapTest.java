@@ -44,13 +44,13 @@ public class RectangleMapTest {
     }
 
     @Test
-    void XEqualWidthIsOffMap(){
-        assertFalse(sampleMap.isCoordinateOnMap(5, 4));
+    void XEqualWidthIsOnMap(){
+        assertTrue(sampleMap.isCoordinateOnMap(5, 4));
     }
 
     @Test
-    void YEqualHeightIsOffMap(){
-        assertFalse(sampleMap.isCoordinateOnMap(2, 7));
+    void YEqualHeightIsOnMap(){
+        assertTrue(sampleMap.isCoordinateOnMap(2, 7));
     }
 
     @Test
@@ -61,5 +61,15 @@ public class RectangleMapTest {
     @Test
     void YOneLessThanHeightIsOnMap(){
         assertTrue(sampleMap.isCoordinateOnMap(2, 6));
+    }
+
+    @Test
+    void XOneMoreThanWidthIsOnMap(){
+        assertFalse(sampleMap.isCoordinateOnMap(6, 4));
+    }
+
+    @Test
+    void YOneMoreThanHeightIsOnMap(){
+        assertFalse(sampleMap.isCoordinateOnMap(2, 8));
     }
 }

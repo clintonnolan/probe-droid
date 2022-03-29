@@ -41,7 +41,7 @@ public class IntegrationTest {
         String outputReport = sim.run(inputString);
 
         String expectedOutput = "1 3 N\n"
-        +"5 1 E";
+        +"5 1 E\n";
         
         assertThat(outputReport).isEqualTo(expectedOutput);
     }

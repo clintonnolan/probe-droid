@@ -30,8 +30,16 @@ public class DroidStringParser implements Parser<String>{
         Map map = mapParser.parseMap(lines.getMapLine());
         state.setMap(map);
         List<Agent> agents = new ArrayList<>();
+        int agentCounter = 0;
         for (List<String> lineList : lines.getDroidLines()){
             Agent agent = droidParser.parseDroid(lineList);
+            agent.setId("Droid "+Integer.toString(agentCounter));
+            //TODO: improve?
+            if(!map.isCoordinateOnMap(agent.getX(), agent.getY())){
+                throw new RuntimeException("Initial agent coordinates for agent "+agentCounter+" are not on the map");
+            }
+            agent.setOnMap(true);
+            agentCounter++;
             agents.add(agent);
         }
         state.setAgents(agents);

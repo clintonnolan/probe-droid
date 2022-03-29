@@ -48,10 +48,10 @@ public class RectangleMap implements Map{
 
     @Override
     public boolean isCoordinateOnMap(int x, int y) {
-        if(x < 0 || x >= width){
+        if(x < 0 || x > width){
             return false;
         }
-        if(y < 0 || y >= height){
+        if(y < 0 || y > height){
             return false;
         }
         return true;

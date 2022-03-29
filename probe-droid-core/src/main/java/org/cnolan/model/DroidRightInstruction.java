@@ -14,5 +14,14 @@ public class DroidRightInstruction extends DroidInstruction {
         currentDirection = (currentDirection + 1) % 4;
         droid.setDirection(currentDirection);
     }
+
+    @Override
+    public String getDisplayString(){
+        return "right";
+    }
     
+    @Override
+    public String toString(){
+        return "R";
+    }
 }

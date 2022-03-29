@@ -42,13 +42,13 @@ public class DroidParser {
             //TODO: improve this
             switch(c){
                 case 'L':
-                    action = new DroidLeftInstruction(droid);
+                    actions.add(new DroidLeftInstruction(droid));
                     break;
                 case 'R':
-                    action = new DroidRightInstruction(droid);
+                    actions.add(new DroidRightInstruction(droid));
                     break;
                 case 'M':
-                    action = new DroidForwardInstruction(droid);
+                    actions.add(new DroidForwardInstruction(droid));
                     break;
                 default:
                     //TODO: improve this

@@ -17,5 +17,14 @@ public class DroidLeftInstruction extends DroidInstruction {
         }
         droid.setDirection(currentDirection);
     }
-    
+
+    @Override
+    public String getDisplayString(){
+        return "left";
+    }
+
+    @Override
+    public String toString(){
+        return "L";
+    }
 }

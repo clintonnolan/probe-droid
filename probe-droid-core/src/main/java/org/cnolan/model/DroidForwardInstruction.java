@@ -38,5 +38,15 @@ public class DroidForwardInstruction extends DroidInstruction {
             state.getEvents().add(new FallEvent(droid.getX(), droid.getY(), droid.getDirection(), droid.getId()));
         }
     }
+
+    @Override
+    public String getDisplayString(){
+        return "forward";
+    }
+
+    @Override
+    public String toString(){
+        return "F";
+    }
     
 }

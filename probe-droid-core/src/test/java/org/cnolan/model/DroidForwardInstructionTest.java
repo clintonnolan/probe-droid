@@ -9,7 +9,7 @@ import org.cnolan.simulation.SimulationState;
 import org.junit.jupiter.api.Test;
 
 public class DroidForwardInstructionTest {
-    private RectangleMap exampleMap = new RectangleMap(5,7);
+    private RectangleMap exampleMap = new RectangleMap(4,6);
 
     @Test
     void whenMoveNorthInMiddleOfMapThenMoveNorth(){
