@@ -37,7 +37,6 @@ public class PlainDroidFormatStringParser implements Parser<String>{
         for (List<String> lineList : lines.getDroidLines()){
             Agent agent = droidParser.parseDroid(lineList);
             agent.setId("Droid "+Integer.toString(agentCounter));
-            //TODO: improve?
             if(!map.isCoordinateOnMap(agent.getX(), agent.getY())){
                 validationIssues.add(new ValidationIssue("Initial agent coordinates for agent "+agentCounter+" are not on the map"));
             }

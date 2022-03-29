@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.Fail;
 
 public class IntegrationTest {

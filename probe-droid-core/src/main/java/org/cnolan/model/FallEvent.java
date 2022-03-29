@@ -80,7 +80,6 @@ public class FallEvent implements Event {
 
     @Override
     public String getDisplayString() {
-        //TODO: improve this?
         return "Agent " + agentId + " fell off map at " + x + "," + y + " facing " + CompassUtil.convertCompassStateToCompassString(direction)
                 + ".";
     }
