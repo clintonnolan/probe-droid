@@ -2,10 +2,6 @@ package org.cnolan.model;
 
 import static org.assertj.core.api.Assertions.*;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.cnolan.model.helper.DroidInstructionTestHelper;
 import org.cnolan.simulation.SimulationState;
 import org.junit.jupiter.api.Test;
